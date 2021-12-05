@@ -25,7 +25,6 @@ RUN apt-get update && apt-get install -y \
     libjpeg62-turbo-dev \
     libpng-dev libxpm-dev \
     libfreetype6-dev
-
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
