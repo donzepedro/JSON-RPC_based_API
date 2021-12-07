@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TaskList;
 use Illuminate\Http\Request;
+use PHPUnit\Exception;
 use Validator;
 
 class TaskListController extends Controller
@@ -40,16 +41,26 @@ class TaskListController extends Controller
         return response()->json(['message' => 'Task deleted'], 200);
     }
 
-    public function addNewTask(Request $request){
-        $validator = Validator::make($request->all(),[
-            'text'=>'required|max:128',
-            'date'=>'required|date_format:Y-m-d'
+    public function addNewTask(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'text' => 'required|max:128',
+            'date' => 'required|date_format:Y-m-d'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
         $task = new TaskList();
-        echo $task->NewTaskCheck($request->input('date'));
+        $task->NewTaskCheck($request->input('date'));
+        if (!$task->taskAddStatus) {
+            return $task->taskAddMessage;
+        }
+        $task->fill(array_merge($validator->validated(), ['status' => 'new']));
+        try {
+            $task->save();
+        } catch (\Exception $e) {
+            return response()->json('Failed to add task', 500);
+        }
 
     }
 }
