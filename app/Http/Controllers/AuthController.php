@@ -113,4 +113,9 @@ class AuthController extends Controller
             'user' => auth()->user()
         ]);
     }
+//POST	/api/auth/register
+//POST	/api/auth/login
+//GET	/api/auth/user-profile
+//POST	/api/auth/refresh
+//POST	/api/auth/logout
 }

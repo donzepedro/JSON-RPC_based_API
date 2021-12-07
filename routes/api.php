@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskListController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,4 +25,14 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
+});
+
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'task-list'
+],function($route){
+    Route::get('/by-date/{ymd}',[TaskListController::class, 'byDate']);
+    Route::patch('/change-status/{id}',[TaskListController::class, 'changeStatus']);
+    Route::delete('/delete/{id}',[TaskListController::class,'delete']);
+    Route::post('/add-new-task',[TaskListController::class,'addNewTask']);
 });
