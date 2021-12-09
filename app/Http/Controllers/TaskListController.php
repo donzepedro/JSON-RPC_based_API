@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreNewTask;
 use App\Models\TaskList;
 use Illuminate\Http\Request;
 use PHPUnit\Exception;
@@ -10,12 +11,12 @@ use Validator;
 class TaskListController extends Controller
 {
 
-    public function byDate($ymd)
+    public function show($ymd)
     {
         return response()->json(TaskList::where('date','=',$ymd)->get(),200);
     }
 
-    public function changeStatus($id)
+    public function edit($id)
     {
         $task = TaskList::find($id);
         if ($task->status == 'new') {
@@ -41,17 +42,12 @@ class TaskListController extends Controller
         return response()->json(['message' => 'Task deleted'], 200);
     }
 
-    public function addNewTask(Request $request)
+    public function store(StoreNewTask $request)
     {
-        $validator = Validator::make($request->all(), [
-            'text' => 'required|max:128',
-            'date' => 'required|date_format:Y-m-d'
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
+        $validator = $request->validated();
+        //сделал чере формреквест, но что то не нашел как в таком случае отображать ошибки
         $task = new TaskList();
-        $task->NewTaskCheck($request->input('date'));
+        $task->newTaskCheck($request->input('date'));
         if (!$task->taskAddStatus) {
             return $task->taskAddMessage;
         }

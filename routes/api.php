@@ -29,10 +29,9 @@ Route::group([
 
 Route::group([
     'middleware' => 'auth:api',
-    'prefix' => 'task-list'
 ],function($route){
-    Route::get('/by-date/{ymd}',[TaskListController::class, 'byDate']);
-    Route::patch('/change-status/{id}',[TaskListController::class, 'changeStatus']);
-    Route::delete('/delete/{id}',[TaskListController::class,'delete']);
-    Route::post('/add-new-task',[TaskListController::class,'addNewTask']);
+    Route::get('/tasks/{ymd}',[TaskListController::class, 'show'])->name('show_by_date');
+    Route::patch('/tasks/{id}',[TaskListController::class, 'edit'])->name('change-status');
+    Route::delete('/tasks/{id}',[TaskListController::class,'delete'])->name('delete');
+    Route::post('/tasks',[TaskListController::class,'store'])->name('add-new-task');
 });

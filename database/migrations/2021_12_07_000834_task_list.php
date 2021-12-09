@@ -18,6 +18,7 @@ class TaskList extends Migration
             $table->string('status',4);
             $table->string('text',128);
             $table->date('date');
+            $table->index('date');
         });
     }
 

@@ -14,7 +14,7 @@ class TaskList extends Model
     public $timestamps = false;
     use HasFactory;
 
-    public function NewTaskCheck($date){
+    public function newTaskCheck($date){
         if(strtotime($date) < strtotime(date('Y-m-d'))){
             $this->taskAddMessage = 'you can\'t add a new task in the past';
             $this->taskAddStatus = false;

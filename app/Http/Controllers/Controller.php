@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class Controller extends BaseController
 {
+//Контроллерам не обязательно наследовать базовый класс.
+// Но тогда у вас не будет таких удобных возможностей,
+// как методы middleware(), validate() и dispatch().
+
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function index(){
         try {
